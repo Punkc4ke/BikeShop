@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Информация о товаре</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <h1 class="display-5 p-2">Информация о товаре</h1>
+    <form class="form col-sm-3">
+        <dd class="col-sm-10">
+            <img class="rounded img-fluid pt-4 align-center" th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+        </dd>
+        <div class="form-group mt-2">
+            Наименование: <a th:text="${product.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Цена: <a th:text="${product.price}"/>
+        </div>
+        <div class="form-group mt-2">
+            Дата поступления: <a th:text="${product.dateReceipt}"/>
+        </div>
+        <div class="form-group mt-2">
+            Количество: <a th:text="${product.count}"/>
+        </div>
+        <div class="form-group mt-2">
+            Срок гарантии: <a th:text="${product.warrantyPeriod} + 'мес.'"/>
+        </div>
+        <div class="form-group mt-2">
+            Категория: <a th:text="${product.category.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Цвет: <a th:text="${product.color.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Склад: <a th:text="${product.storage.address}"/>
+        </div>
+        <div class="form-group mt-2">
+            Поставщик: <a th:text="${product.supplier.nameOrganization}"/>
+        </div>
+        <div class="form-group pt-1 d-flex justify-content-center">
+            <a class="btn btn-outline-danger" href="/product/index">Назад</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

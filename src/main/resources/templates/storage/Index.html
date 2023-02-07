@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Склады</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="container">
+    <a class="btn btn-outline-primary" href="/storage/create" style="margin-bottom:0.5em">Добавить</a>
+    <div class="d-flex justify-content-start">
+        <form th:action="@{/storage/search}" th:method="get"
+              class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-6">
+                        <input type="text" name="address" class="form-control" placeholder="Адрес"/>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Поиск" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/storage/sort}" th:method="get"
+              class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-6">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-3">
+                        <select name="sortProperty" class="form-control">
+                            <option th:value="address">Адрес</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-4">
+                        <select name="sortType" class="form-control">
+                            <option th:value="true">По возрастанию</option>
+                            <option th:value="false">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Сортировка" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="text-center">Адрес</th>
+            <th class="text-center">Редактировать</th>
+        </tr>
+        </thead>
+        <tbody th:each="storage : ${storages}">
+        <tr>
+            <td class="text-center" th:text="${storage.address}"/>
+            <td class="text-center">
+                <form th:action="@{/storage/edit}" method="get">
+                    <input value="Редактировать" type="submit" class="btn btn-outline-warning">
+                    <input type="hidden" th:value="${storage.idStorage}" name="storage">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

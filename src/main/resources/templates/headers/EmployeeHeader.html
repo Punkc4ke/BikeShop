@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="/database/index">BikeShop</a>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/database/index">Управление базой данных</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('MERCHANDISER') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/category/index">Категории</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('MERCHANDISER') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/supplier/index">Поставщики</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('SALES_DEP') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/report/index">Отчеты</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('HR_DEP') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/employee/index">Сотрудники</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('CLIENT_SERVICE_DEP') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/client/index">Клиенты</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('MERCHANDISER') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/product/index">Товары</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('MERCHANDISER') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/storage/index">Склады</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('REPAIR_DEP') or hasAnyAuthority('DIRECTOR')">
+                        <a class="nav-link" href="/booking/index">Заказы</a>
+                    </li>
+                </ul>
+                <div class="col col-lg-1">
+                    <form th:action="@{/logout}" method="post">
+                        <input class="btn btn-outline-danger" type="submit" value="Выйти">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Клиенты</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="container">
+    <a class="btn btn-outline-primary" href="/client/create" style="margin-bottom:0.5em">Зарегистрировать</a>
+    <div class="d-flex justify-content-start">
+        <form th:action="@{/client/search}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-6">
+                        <input type="text" name="username" class="form-control" placeholder="Логин"/>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Поиск" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/client/sort}" th:method="get"
+              class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-6">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-3">
+                        <select name="sortProperty" class="form-control">
+                            <option th:value="surname">Фамилия</option>
+                            <option th:value="name">Имя</option>
+                            <option th:value="patronymic">Отчество</option>
+                            <option th:value="phoneNumber">Номер телефона</option>
+                            <option th:value="user.username">Логин</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-4">
+                        <select name="sortType" class="form-control">
+                            <option th:value="true">По возрастанию</option>
+                            <option th:value="false">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Сортировка" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="text-center">Фамилия</th>
+            <th class="text-center">Имя</th>
+            <th class="text-center">Отчество</th>
+            <th class="text-center">Номер телефона</th>
+            <th class="text-center">Логин</th>
+            <th class="text-center">Статус</th>
+            <th class="text-center">Редактировать</th>
+            <th class="text-center">Изменить статус</th>
+            <th class="text-center">Детали</th>
+        </tr>
+        </thead>
+        <tbody th:each="client : ${clients}">
+        <tr>
+            <td class="text-center" th:text="${client.surname}"/>
+            <td class="text-center" th:text="${client.name}"/>
+            <td class="text-center" th:text="${client.patronymic}"/>
+            <td class="text-center" th:text="${client.phoneNumber}"/>
+            <td class="text-center" th:text="${client.user.username}"/>
+            <td class="text-center" th:if="${client.user.active}" th:text="Активен"/>
+            <td class="text-center" th:if="${!client.user.active}" th:text="Заблокирован"/>
+            <td class="text-center">
+                <form th:action="@{/client/edit}" method="get">
+                    <input value="Редактировать" type="submit" class="btn btn-outline-warning">
+                    <input type="hidden" th:value="${client.idClient}" name="client">
+                </form>
+            </td>
+            <td class="text-center">
+                <form th:action="@{/client/changeStatus}" method="post">
+                    <input th:if="${client.user.active}" value="Заблокировать" type="submit" class="btn btn-outline-danger">
+                    <input th:if="${!client.user.active}" value="Разблокировать" type="submit" class="btn btn-outline-success">
+                    <input type="hidden" th:value="${client.idClient}" name="client">
+                </form>
+            </td>
+            <td class="text-center">
+                <form th:action="@{/client/details}" method="get">
+                    <input value="Детали" type="submit" class="btn btn-outline-primary">
+                    <input type="hidden" th:value="${client.idClient}" name="client">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

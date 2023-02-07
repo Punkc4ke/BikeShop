@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Информация о сотруднике</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <h1 class="display-5 p-2">Информация о сотруднике</h1>
+    <form class="form col-sm-3">
+        <div class="form-group mt-2">
+            Фамилия: <a th:text="${employee.surname}"/>
+        </div>
+        <div class="form-group mt-2">
+            Имя: <a th:text="${employee.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Отчество: <a th:text="${employee.patronymic}"/>
+        </div>
+        <div class="form-group mt-2">
+            Дата рождения: <a th:text="${employee.dateBirth}"/>
+        </div>
+        <div class="form-group mt-2">
+            Серия паспорта: <a th:text="${employee.passportSeries}"/>
+        </div>
+        <div class="form-group mt-2">
+            Номер паспорта: <a th:text="${employee.passportNumber}"/>
+        </div>
+        <div class="form-group mt-2">
+            Адрес: <a th:text="${employee.address}"/>
+        </div>
+        <div class="form-group mt-2">
+            Номер телефона: <a th:text="${employee.phoneNumber}"/>
+        </div>
+        <div class="form-group mt-2">
+            Логин: <a th:text="${employee.user.username}"/>
+        </div>
+        <div class="form-group mt-2">
+            Должность: <a th:text="${employee.user.roles[0].name}"/>
+        </div>
+        <div class="form-group pt-1 d-flex justify-content-center">
+            <a class="btn btn-outline-danger" href="/employee/index">Назад</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

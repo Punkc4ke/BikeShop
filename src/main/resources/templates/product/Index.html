@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Товары</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="container">
+    <a class="btn btn-outline-primary" href="/product/create" style="margin-bottom:0.5em">Добавить</a>
+    <div class="d-flex justify-content-start">
+        <form th:action="@{/product/search}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-6">
+                        <input type="text" name="name" class="form-control" placeholder="Наименование"/>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Поиск" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/product/sort}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-6">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-3">
+                        <select name="sortProperty" class="form-control">
+                            <option th:value="name">Наименование</option>
+                            <option th:value="price">Цена</option>
+                            <option th:value="dateReceipt">Дата поступления</option>
+                            <option th:value="count">Количество</option>
+                            <option th:value="color.name">Цвет</option>
+                            <option th:value="category.name">Категория</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-4">
+                        <select name="sortType" class="form-control">
+                            <option th:value="true">По возрастанию</option>
+                            <option th:value="false">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Сортировка" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="text-center">Наименование</th>
+            <th class="text-center">Цена</th>
+            <th class="text-center">Дата поступления</th>
+            <th class="text-center">Количество</th>
+            <th class="text-center">Цвет</th>
+            <th class="text-center">Категория</th>
+            <th class="text-center">Статус</th>
+            <th class="text-center">Редактировать</th>
+            <th class="text-center">Изменить статус</th>
+            <th class="text-center">Детали</th>
+        </tr>
+        </thead>
+        <tbody th:each="product : ${products}">
+        <tr>
+            <td class="text-center" th:text="${product.name}"/>
+            <td class="text-center" th:text="${product.price}"/>
+            <td class="text-center" th:text="${product.dateReceipt}"/>
+            <td class="text-center" th:text="${product.count}"/>
+            <td class="text-center" th:text="${product.color.name}"/>
+            <td class="text-center" th:text="${product.category.name}"/>
+            <td class="text-center" th:if="${product.active}" th:text="Доступен"/>
+            <td class="text-center" th:if="${!product.active}" th:text="Недоступен"/>
+            <td class="text-center">
+                <form th:action="@{/product/edit}" method="get">
+                    <input value="Редактировать" type="submit" class="btn btn-outline-warning">
+                    <input type="hidden" th:value="${product.idProduct}" name="product">
+                </form>
+            </td>
+            <td class="text-center">
+                <form th:action="@{/product/changeStatus}" method="post">
+                    <input th:if="${product.active}" value="Удалить" type="submit" class="btn btn-outline-danger">
+                    <input th:if="${!product.active}" value="Восстановить" type="submit" class="btn btn-outline-success">
+                    <input type="hidden" th:value="${product.idProduct}" name="product">
+                </form>
+            </td>
+            <td class="text-center">
+                <form th:action="@{/product/details}" method="get">
+                    <input value="Детали" type="submit" class="btn btn-outline-primary">
+                    <input type="hidden" th:value="${product.idProduct}" name="product">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

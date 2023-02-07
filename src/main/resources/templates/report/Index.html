@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Статистика продаж номеров</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <form method="get" th:action="@{/report/filter}">
+        <div class="btn-group">
+                <input type="date" class="form-control" name="datePrintBegin">
+            <label class="form-label"></label>
+                <input type="date" class="form-control" name="datePrintEnd">
+        </div>
+        <input type="submit" value="Подтвердить" class="btn btn-outline-success">
+    </form>
+    <div class="shadow-lg rounded-lg overflow-hidden mt-2" style="width: 50%; height: 50%">
+        <canvas class="p-10" id="chartBar"></canvas>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    var products = /*[[${products}]]*/;
+    var cheques = /*[[${cheques}]]*/;
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const dataLine = {
+        labels: cheques,
+        datasets: [
+            {
+                label: "Отчет",
+                data: products,
+                hoverOffset: 4,
+            },
+        ],
+    };
+    const configBarChart = {
+        type: "bar",
+        data: dataLine,
+        options: {},
+    };
+    var chartBar = new Chart(
+        document.getElementById("chartBar"),
+        configBarChart
+    );
+</script>
+</html>

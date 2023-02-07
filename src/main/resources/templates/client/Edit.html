@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование клиента</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+    <script src="https://unpkg.com/imask"></script>
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <h1 class="display-5 p-2">Редактирование сотрудника</h1>
+    <form th:action="${'/client/edit'}" method="post" th:object="${client}" class="form col-sm-3">
+        <input type="hidden" th:field="*{idClient}"/>
+        <div class="form-group mt-2">
+            <input placeholder="Фамилия" type="text" class="form-control" th:field="*{surname}">
+            <div class="error text-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
+        </div>
+        <div class="form-group mt-2">
+            <input placeholder="Имя" type="text" class="form-control" th:field="*{name}">
+            <div class="error text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class="form-group mt-2">
+            <input placeholder="Отчество" type="text" class="form-control" th:field="*{patronymic}">
+            <div class="error text-danger" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
+        </div>
+        <div class="form-group mt-2">
+            <input placeholder="Номер телефона" type="text" class="form-control" th:field="*{phoneNumber}" data-mask="phoneNumber">
+            <div class="error text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+        </div>
+        <div th:object="${user}">
+            <input type="hidden" th:field="*{idUser}"/>
+            <input type="hidden" th:field="*{password}"/>
+            <input type="hidden" th:field="*{active}"/>
+            <input type="hidden" th:field="*{roles}"/>
+            <div class="form-group mt-2">
+                <input placeholder="Логин" type="text" class="form-control" th:field="*{username}">
+                <div class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <div class="error text-danger" th:if="errorMessageUsername!=null" th:text="${errorMessageUsername}"></div>
+            </div>
+        </div>
+        <div class="form-group pt-1 d-flex justify-content-center">
+            <button class="btn btn-outline-success" type="submit">Изменить</button>
+        </div>
+        <div class="form-group pt-1 d-flex justify-content-center">
+            <a class="btn btn-outline-danger" href="/client/index">Отмена</a>
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mask = (dataValue, options) => {
+            const elements = document.querySelectorAll(`[data-mask="${dataValue}"]`)
+            if (!elements) return
+
+            elements.forEach(el => {
+                IMask(el, options)
+            })
+        }
+        mask('phoneNumber', {
+            mask: '+{7}(000)000-00-00'
+        })
+    })
+</script>
+</html>

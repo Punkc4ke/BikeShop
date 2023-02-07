@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>История</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/ClientHeader"></div>
+<div class="container">
+    <a class="btn btn-outline-primary" th:if="${chequesCount>0}" href="/generateExcel" style="margin-bottom:0.5em">Чек в Excel</a>
+    <a class="btn btn-outline-primary" th:if="${chequesCount>0}" href="/generateWord" style="margin-bottom:0.5em">Чек в Word</a>
+    <h1>История</h1>
+    <div class="row">
+        <div class="col-3 mb-3" th:each="cheque: ${cheques}">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top rounded" height="200px" width="200px" alt="" th:if="${cheque.product.image!=null}" th:src="'/image/' + ${cheque.product.image.idImage}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${cheque.product.name}"></h5>
+                    <p class="card-text" th:text="${cheque.product.category.name}"></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="'Цвет: ' + ${cheque.product.color.name}"/>
+                    <li class="list-group-item" th:text="'Цена: ' + ${cheque.product.price}"/>
+                    <li class="list-group-item" th:text="'Количество: ' + ${cheque.product.count}"/>
+                    <li class="list-group-item" th:text="'Итоговая цена: ' + ${cheque.product.price*cheque.count}"/>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

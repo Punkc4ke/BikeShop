@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Информация о заказе</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="d-flex flex-column align-items-center justify-content-center mt-3">
+    <h1 class="display-5 p-2">Информация о заказе</h1>
+    <form class="form col-sm-3">
+        <div class="form-group mt-2">
+            Дата начала работ: <a th:text="${booking.dateBegin}"/>
+        </div>
+        <div class="form-group mt-2">
+            Дата завершения работ:
+            <a th:if="${booking.dateEnd!=null}" th:text="${booking.dateEnd}"/>
+            <a th:if="${booking.dateEnd==null}" th:text="Отсутствует"/>
+        </div>
+        <div class="form-group mt-2">
+            Товар: <a th:text="${booking.product.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Статус: <a th:text="${booking.status.name}"/>
+        </div>
+        <div class="form-group mt-2">
+            Клиент: <a
+                th:text="${booking.client.surname}+' '+${booking.client.name}+' '+${booking.client.patronymic}"/>
+        </div>
+        <div class="form-group mt-2">
+            Сотрудник: <a
+                th:text="${booking.employee.surname}+' '+${booking.employee.name}+' '+${booking.employee.patronymic}"/>
+        </div>
+        <div class="form-group mt-2">
+            Должность сотрудника: <a th:text="${booking.employee.user.roles[0].name}"/>
+        </div>
+        <div class="form-group pt-1 d-flex justify-content-center">
+            <a class="btn btn-outline-danger" href="/booking/index">Назад</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

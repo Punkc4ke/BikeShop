@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Каталог товаров</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/ClientHeader"></div>
+<div class="container">
+    <div class="d-flex justify-content-start mb-3 mt-3">
+        <form th:action="@{/search}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-6">
+                        <input type="text" name="name" class="form-control" placeholder="Наименование"/>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Поиск" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/sort}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-6">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-3">
+                        <select name="sortProperty" class="form-control">
+                            <option th:value="name">Наименование</option>
+                            <option th:value="category.name">Категория</option>
+                            <option th:value="price">Цена</option>
+                            <option th:value="count">Количество</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-4">
+                        <select name="sortType" class="form-control">
+                            <option th:value="true">По возрастанию</option>
+                            <option th:value="false">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Сортировка" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <h1>Каталог товаров</h1>
+    <div class="row">
+        <div class="col-3 mb-3" th:each="product: ${products}" th:if="${product.count!=0&&product.active}">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top rounded" height="200px" width="200px" alt="" th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text" th:text="${product.category.name}"></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="'Цвет: ' + ${product.color.name}"/>
+                    <li class="list-group-item" th:text="'Количество: ' + ${product.count}"/>
+                    <li class="list-group-item" th:text="'Цена: ' + ${product.price}"/>
+                </ul>
+                <div class="card-body">
+                    <div class="btn-group">
+                        <form th:action="@{/cart/create}" method="post">
+                            <input value="Добавить в корзину" type="submit" class="btn btn-outline-primary">
+                            <input type="hidden" th:value="${product.idProduct}" name="product">
+                        </form>
+                        <form th:action="@{/buy}" method="post">
+                            <input value="Купить" type="submit" class="btn btn-outline-primary">
+                            <input type="hidden" th:value="${product.idProduct}" name="product">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Категории товаров</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.css}">
+    <link media="all" rel="stylesheet" th:href="@{/bootstrap.js}">
+</head>
+<body>
+<div th:insert="headers/EmployeeHeader"></div>
+<div class="container">
+    <a class="btn btn-outline-primary" href="/category/create" style="margin-bottom:0.5em">Добавить</a>
+    <div class="d-flex justify-content-start">
+        <form th:action="@{/category/search}" th:method="get"
+              class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-5">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-6">
+                        <input type="text" name="name" class="form-control" placeholder="Наименование"/>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Поиск" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/category/sort}" th:method="get" class="form-horizontal d-flex flex-row align-items-center justify-content-between col-sm-6">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col col-lg-3">
+                        <select name="sortProperty" class="form-control">
+                            <option th:value="name">Наименование</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-4">
+                        <select name="sortType" class="form-control">
+                            <option th:value="true">По возрастанию</option>
+                            <option th:value="false">По убыванию</option>
+                        </select>
+                    </div>
+                    <div class="col col-lg-3">
+                        <input value="Сортировка" type="submit" class="btn btn-outline-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="text-center">Наименование</th>
+            <th class="text-center">Редактировать</th>
+        </tr>
+        </thead>
+        <tbody th:each="category : ${categories}">
+        <tr>
+            <td class="text-center" th:text="${category.name}"/>
+            <td class="text-center">
+                <form th:action="@{/category/edit}" method="get">
+                    <input value="Редактировать" type="submit" class="btn btn-outline-warning">
+                    <input type="hidden" th:value="${category.idCategory}" name="category">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
